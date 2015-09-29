@@ -36,22 +36,6 @@ extension ScrollViewImager {
         
     }
     
-    func generateBlurredScreenshot(completion: (blurred: UIImage) -> Void) {
-        
-        takeScreenshotAtPoint(point: self.contentOffset) { (screenshot) -> Void in
-            
-            let imageToBlur = CIImage(image: screenshot)
-            let blurfilter = CIFilter(name: "CIGaussianBlur")!
-            blurfilter.setValue(imageToBlur, forKey: "inputImage")
-            blurfilter.setValue(20, forKey: kCIInputRadiusKey)
-            let resultImage = blurfilter.valueForKey("outputImage") as! CIImage
-            let blurredImage = UIImage(CIImage: resultImage)
-            
-            completion(blurred: blurredImage)
-            
-        }
-    }
-    
     private func makeScreenshots(points:[[CGPoint]], frames : [[CGRect]],completion: (screenshots: [[UIImage]]) -> Void) {
         
         var counter : Int = 0
