@@ -46,17 +46,27 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     @IBAction func captureScreenshot(sender: AnyObject) {
         
+        // check if collectionview is showing
         if collectionView.superview == nil {
+            
+            // if not -> add it and remove the screenshotView
             self.view.addSubview(collectionView)
             self.screenshotView.removeFromSuperview()
+            
         } else {
-        
+            
+            // set up screenshotView and add mockUp
             self.screenshotView = UIImageView(frame: self.collectionView.frame)
-            self.screenshotView.image = collectionView.mockUp()
+            self.screenshotView.image = collectionView.mockUp
             self.view.addSubview(self.screenshotView)
+            
+            // remove collectionview from super
             collectionView.removeFromSuperview()
             
+            // generate screenshot
             self.collectionView.screenshot { (screenshot) -> Void in
+                
+                // display screenshot
                 self.screenshotView.image = screenshot
                 self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
                 

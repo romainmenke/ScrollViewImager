@@ -19,10 +19,28 @@ protocol ScrollViewImager {
     func setContentOffset(contentOffset: CGPoint, animated: Bool)
     
     func drawViewHierarchyInRect(rect: CGRect, afterScreenUpdates: Bool) -> Bool
+    
+    var mockUp : UIImage { get }
 }
 
 extension ScrollViewImager {
+    /**
+     Returns a screenshot from the visible area
+     - use this to cover the screenshot making process
+     
+     */
+    var mockUp : UIImage {
+        get {
+            return generateMockUp()
+        }
+    }
     
+    /**
+     Generate a screenshot from the content
+     - display acts a bit glitchy
+     - scrollview will scroll when doing this
+     
+     */
     func screenshot(completion: (screenshot: UIImage) -> Void) {
         
         let pointsAndFrames = getScreenshotRects()
@@ -37,7 +55,7 @@ extension ScrollViewImager {
         
     }
     
-    func mockUp() -> UIImage {
+    private func generateMockUp() -> UIImage {
         
         let rect = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
