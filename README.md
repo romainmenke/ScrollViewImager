@@ -9,4 +9,4 @@ returns a screenshot of the entire content
 
 With `.mockUp` you can hide the `UIScrollView` or `UICollectionView` while `.screenshot` does it's work, which involves a lot of scrolling.
 
-`.screenshot` will go over the entire content and take screenshots, adding delays to allow redraws.
+`.screenshot` will go over the entire content and take screenshots, adding delays to allow redraws. Finally it will stitch all images together.
