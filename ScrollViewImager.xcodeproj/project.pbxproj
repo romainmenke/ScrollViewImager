@@ -12,6 +12,8 @@
 		05ECFA3B1BBB229000582002 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05ECFA391BBB229000582002 /* Main.storyboard */; };
 		05ECFA3D1BBB229000582002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05ECFA3C1BBB229000582002 /* Assets.xcassets */; };
 		05ECFA401BBB229000582002 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05ECFA3E1BBB229000582002 /* LaunchScreen.storyboard */; };
+		05ECFA481BBB22A400582002 /* ScrollViewImager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ECFA471BBB22A400582002 /* ScrollViewImager.swift */; };
+		05ECFA4A1BBB235600582002 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ECFA491BBB235600582002 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		05ECFA3C1BBB229000582002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		05ECFA3F1BBB229000582002 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		05ECFA411BBB229000582002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		05ECFA471BBB22A400582002 /* ScrollViewImager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewImager.swift; sourceTree = "<group>"; };
+		05ECFA491BBB235600582002 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				05ECFA3C1BBB229000582002 /* Assets.xcassets */,
 				05ECFA3E1BBB229000582002 /* LaunchScreen.storyboard */,
 				05ECFA411BBB229000582002 /* Info.plist */,
+				05ECFA471BBB22A400582002 /* ScrollViewImager.swift */,
+				05ECFA491BBB235600582002 /* CollectionViewCell.swift */,
 			);
 			path = ScrollViewImager;
 			sourceTree = "<group>";
@@ -135,6 +141,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				05ECFA381BBB229000582002 /* ViewController.swift in Sources */,
+				05ECFA481BBB22A400582002 /* ScrollViewImager.swift in Sources */,
+				05ECFA4A1BBB235600582002 /* CollectionViewCell.swift in Sources */,
 				05ECFA361BBB229000582002 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
