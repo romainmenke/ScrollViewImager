@@ -31,8 +31,21 @@ extension ScrollViewImager {
         
         makeScreenshots(points, frames: frames) { (screenshots) -> Void in
             let stitched = self.stitchImages(images: screenshots, finalSize: self.contentSize)
+            
             completion(screenshot: stitched!)
         }
+        
+    }
+    
+    func mockUp() -> UIImage {
+        
+        let rect = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
+        self.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
         
     }
     

@@ -15,6 +15,8 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     var cellsInSection : Int = 0
     var numberOfSections : Int = 0
     
+    var screenshotView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,17 +46,22 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     @IBAction func captureScreenshot(sender: AnyObject) {
         
-        let coverView = UIImageView(frame: self.collectionView.frame)
+        if collectionView.superview == nil {
+            self.view.addSubview(collectionView)
+            self.screenshotView.removeFromSuperview()
+        } else {
         
-        self.collectionView.screenshot { (screenshot) -> Void in
-            coverView.image = screenshot
-            coverView.contentMode = UIViewContentMode.ScaleAspectFit
-            self.collectionView.alpha = 0.5
-            self.view.addSubview(coverView)
+            self.screenshotView = UIImageView(frame: self.collectionView.frame)
+            self.screenshotView.image = collectionView.mockUp()
+            self.view.addSubview(self.screenshotView)
+            collectionView.removeFromSuperview()
+            
+            self.collectionView.screenshot { (screenshot) -> Void in
+                self.screenshotView.image = screenshot
+                self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
+                
+            }
         }
-        
-        
-        
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
