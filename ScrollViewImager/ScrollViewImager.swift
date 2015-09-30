@@ -20,10 +20,13 @@ protocol ScrollViewImager {
     
     func drawViewHierarchyInRect(rect: CGRect, afterScreenUpdates: Bool) -> Bool
     
+    func setNeedsDisplay()
+    
     var mockUp : UIImage { get }
 }
 
 extension ScrollViewImager {
+    
     /**
      Returns a screenshot from the visible area
      - use this to cover the screenshot making process
@@ -198,11 +201,12 @@ extension ScrollViewImager {
             
             UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
             self.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
+            
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
-            
             self.setContentOffset(currentOffset, animated: false)
+            
             completion(screenshot: image)
         }
     }
