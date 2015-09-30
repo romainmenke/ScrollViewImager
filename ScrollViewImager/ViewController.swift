@@ -28,6 +28,43 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewDidAppear(animated: Bool) {
         
+        collectionVIewSetup()
+        
+    }
+    
+    // SCREENSHOT
+    @IBAction func captureScreenshot(sender: AnyObject) {
+        
+        // check if collectionview is showing
+        if collectionView.superview == nil {
+            
+            // if not -> add it and remove the screenshotView
+            self.view.addSubview(collectionView)
+            self.screenshotView.removeFromSuperview()
+            
+        } else {
+            
+            // set up screenshotView and add mockUp
+            self.screenshotView = UIImageView(frame: self.collectionView.frame)
+            self.screenshotView.image = collectionView.mockup
+            self.view.addSubview(self.screenshotView)
+            
+            // remove collectionview from super
+            collectionView.removeFromSuperview()
+            
+            // generate screenshot
+            self.collectionView.screenshot { (screenshot) -> Void in
+                
+                // display screenshot
+                self.screenshotView.image = screenshot
+                self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
+                
+            }
+        }
+    }
+    
+    private func collectionVIewSetup() {
+        
         let collWidth = self.view.bounds.size.width
         let cellWidth : CGFloat = 50 + 5
         
@@ -43,35 +80,6 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         
         collectionView.reloadData()
         
-    }
-    @IBAction func captureScreenshot(sender: AnyObject) {
-        
-        // check if collectionview is showing
-        if collectionView.superview == nil {
-            
-            // if not -> add it and remove the screenshotView
-            self.view.addSubview(collectionView)
-            self.screenshotView.removeFromSuperview()
-            
-        } else {
-            
-            // set up screenshotView and add mockUp
-            self.screenshotView = UIImageView(frame: self.collectionView.frame)
-            self.screenshotView.image = collectionView.mockUp
-            self.view.addSubview(self.screenshotView)
-            
-            // remove collectionview from super
-            collectionView.removeFromSuperview()
-            
-            // generate screenshot
-            self.collectionView.screenshot { (screenshot) -> Void in
-                
-                // display screenshot
-                self.screenshotView.image = screenshot
-                self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
-                
-            }
-        }
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
