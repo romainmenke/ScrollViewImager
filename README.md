@@ -4,7 +4,7 @@
     .mockup
 returns a screenshot of the current visible area
 
-    .screenshot(completion: (screenshot: UIImage) -> Void)
+    .screenshot(completion: (screenshot: UIImage?) -> Void)
 returns a screenshot of the entire content
 
 With `.mockup` you can hide the `UIScrollView` or `UICollectionView` while `.screenshot` does it's work, which involves a lot of scrolling.
