@@ -20,8 +20,6 @@ protocol ScrollViewImager {
     
     func drawViewHierarchyInRect(rect: CGRect, afterScreenUpdates: Bool) -> Bool
     
-    func setNeedsDisplay()
-    
     var mockUp : UIImage { get }
 }
 
