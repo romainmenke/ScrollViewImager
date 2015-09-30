@@ -216,8 +216,8 @@ extension ScrollViewImager {
         }
         
         return (points: offsets, frames: rects)
-        
     }
+    
     
     private func takeScreenshotAtPoint(point point_I: CGPoint, completion: (screenshot: UIImage) -> Void) {
         
@@ -241,6 +241,7 @@ extension ScrollViewImager {
         }
     }
     
+    
     private func delay(delay:Double, closure:()->()) {
         
         dispatch_after(
@@ -249,7 +250,6 @@ extension ScrollViewImager {
                 Int64(delay * Double(NSEC_PER_SEC))
             ),
             dispatch_get_main_queue(), closure)
-        
     }
     
     
@@ -261,11 +261,12 @@ extension ScrollViewImager {
         return UIImage(CGImage:imageRef)
     }
     
+    
     private func stitchImages(images images_I: [[UIImage]], finalSize finalSize_I: CGSize) -> UIImage? {
         
         let finalRect = CGRect(x: 0, y: 0, width: finalSize_I.width, height: finalSize_I.height)
         
-        guard images_I.count > 0 else {
+        guard let firstRow = images_I.first, _ = firstRow.first else {
             return nil
         }
         
@@ -288,8 +289,6 @@ extension ScrollViewImager {
                 offsetX += width
                 
             }
-            
-            offsetX = 0
             
             if let firstimage = imageRow.first {
                 offsetY += firstimage.size.height
