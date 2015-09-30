@@ -56,7 +56,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             self.collectionView.screenshot { (screenshot) -> Void in
                 
                 // display screenshot
-                self.screenshotView.image = screenshot
+                self.screenshotView.image = screenshot // this apparently has no trouble accepting an optional : Hooray!
                 self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
                 
             }
