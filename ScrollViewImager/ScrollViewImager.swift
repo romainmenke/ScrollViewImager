@@ -67,7 +67,7 @@ extension ScrollViewImager {
      Generate a screenshot by resizing the scrollview
      - unsafe with memory intensive cells
      */
-    mutating func screenshot() -> UIImage {
+    mutating func screenshot(scale: CGFloat) -> UIImage {
         
         frame.size = contentSize
         setContentOffset(CGPointZero, animated: false)
@@ -79,7 +79,7 @@ extension ScrollViewImager {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return image
+        return resizeUIImage(image, scale: scale)
         
     }
     
@@ -89,15 +89,17 @@ extension ScrollViewImager {
      - display acts a bit glitchy
      - scrollview will scroll when doing this
      */
-    func screenshot(completion: (screenshot: UIImage?) -> Void) {
+    func screenshot(scale: CGFloat, completion: (screenshot: UIImage?) -> Void) {
         
         let pointsAndFrames = self.getScreenshotRects()
         let points = pointsAndFrames.points
         let frames = pointsAndFrames.frames
         
-        makeScreenshots(points: points, frames: frames) { (screenshots) -> Void in
+        let finalSize = CGSize(width: self.contentSize.width * scale, height: self.contentSize.height * scale)
+        
+        makeScreenshots(points: points, frames: frames, scale: scale) { (screenshots) -> Void in
             
-            let stitched = self.stitchImages(images: screenshots, finalSize: self.contentSize)
+            let stitched = self.stitchImages(images: screenshots, finalSize: finalSize)
             
             completion(screenshot: stitched)
             
@@ -105,7 +107,7 @@ extension ScrollViewImager {
     }
     
     
-    private func makeScreenshots(points points_I: [[CGPoint]], frames frames_I: [[CGRect]], completion: (screenshots: [[UIImage]]) -> Void) {
+    private func makeScreenshots(points points_I: [[CGPoint]], frames frames_I: [[CGRect]], scale:CGFloat, completion: (screenshots: [[UIImage]]) -> Void) {
         
         var counter: Int = 0
         
@@ -122,7 +124,7 @@ extension ScrollViewImager {
         
         // same code is used twice -> nested function
         func internalScreenshotRow() {
-            makeScreenshotRow(points: points_I[counter], frames: frames_I[counter]) { (screenshot) -> Void in
+            makeScreenshotRow(points: points_I[counter], frames: frames_I[counter], scale: scale) { (screenshot) -> Void in
                 counter += 1
                 images.append(screenshot)
             }
@@ -132,7 +134,7 @@ extension ScrollViewImager {
     }
     
     
-    private func makeScreenshotRow(points points_I: [CGPoint], frames frames_I: [CGRect], completion: (screenshots: [UIImage]) -> Void) {
+    private func makeScreenshotRow(points points_I: [CGPoint], frames frames_I: [CGRect], scale:CGFloat, completion: (screenshots: [UIImage]) -> Void) {
         
         var counter: Int = 0
         
@@ -149,7 +151,7 @@ extension ScrollViewImager {
         
         // same code is used twice -> nested function
         func internalTakeScreenshotAtPoint() {
-            takeScreenshotAtPoint(point: points_I[counter]) { (screenshot) -> Void in
+            takeScreenshotAtPoint(point: points_I[counter], scale: scale) { (screenshot) -> Void in
                 counter += 1
                 images.append(screenshot)
             }
@@ -241,7 +243,7 @@ extension ScrollViewImager {
     }
     
     
-    private func takeScreenshotAtPoint(point point_I: CGPoint, completion: (screenshot: UIImage) -> Void) {
+    private func takeScreenshotAtPoint(point point_I: CGPoint, scale:CGFloat, completion: (screenshot: UIImage) -> Void) {
         
         let rect = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
         let currentOffset = contentOffset // temp store current offset
@@ -254,8 +256,12 @@ extension ScrollViewImager {
             UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
             self.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
             
-            let image = UIGraphicsGetImageFromCurrentImageContext()
+            var image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
+            
+            if scale != 1 {
+                image = self.resizeUIImage(image, scale: scale)
+            }
             
             self.setContentOffset(currentOffset, animated: false) // reset offset to previous value
             
@@ -281,6 +287,24 @@ extension ScrollViewImager {
             return nil
         }
         return UIImage(CGImage:imageRef)
+    }
+    
+    private func resizeUIImage(image: UIImage, scale: CGFloat) -> UIImage {
+        
+        let size = image.size
+        
+        let targetSize = CGSize(width: size.width * scale, height: size.height * scale)
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRectMake(0, 0, targetSize.width, targetSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
     

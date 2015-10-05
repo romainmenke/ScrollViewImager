@@ -295,6 +295,7 @@
 				05ECFA461BBB229000582002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
