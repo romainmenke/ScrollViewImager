@@ -68,6 +68,8 @@ extension ScrollViewImager {
      - unsafe with memory intensive cells
      */
     mutating func screenshot(scale: CGFloat) -> UIImage {
+        let currentSize = frame.size
+        let currentOffset = contentOffset // temp store current offset
         
         frame.size = contentSize
         setContentOffset(CGPointZero, animated: false)
@@ -78,6 +80,9 @@ extension ScrollViewImager {
         self.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
+        frame.size = currentSize
+        setContentOffset(currentOffset, animated: false)
         
         return resizeUIImage(image, scale: scale)
         
