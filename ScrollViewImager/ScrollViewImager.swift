@@ -49,6 +49,7 @@ extension UIView : UIViewImager {
 
 protocol ScrollViewImager {
     
+    var frame: CGRect { get set }
     var bounds: CGRect { get }
     var contentSize: CGSize { get }
     var contentOffset: CGPoint { get }
@@ -61,11 +62,32 @@ protocol ScrollViewImager {
 
 extension ScrollViewImager {
     
+    
+    /**
+     Generate a screenshot by resizing the scrollview
+     - unsafe with memory intensive cells
+     */
+    mutating func screenshot() -> UIImage {
+        
+        frame.size = contentSize
+        setContentOffset(CGPointZero, animated: false)
+        
+        
+        let rect = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
+        self.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+        
+    }
+    
+    
     /**
      Generate a screenshot from the content
      - display acts a bit glitchy
      - scrollview will scroll when doing this
-     
      */
     func screenshot(completion: (screenshot: UIImage?) -> Void) {
         

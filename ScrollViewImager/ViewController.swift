@@ -52,6 +52,11 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             // remove collectionview from super
             collectionView.removeFromSuperview()
             
+            
+            self.screenshotView.image = self.collectionView.screenshot()
+            self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
+            
+            
             // generate screenshot
             self.collectionView.screenshot { (screenshot) -> Void in
                 
@@ -60,6 +65,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 self.screenshotView.contentMode = UIViewContentMode.ScaleAspectFit
                 
             }
+
         }
     }
     
