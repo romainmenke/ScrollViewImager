@@ -9,17 +9,7 @@
 import UIKit
 
 
-protocol UIViewImager {
-    
-    var bounds: CGRect { get }
-    var mockup: UIImage { get }
-    
-    func drawViewHierarchyInRect(rect: CGRect, afterScreenUpdates: Bool) -> Bool
-    
-}
-
-
-extension UIViewImager {
+extension UIView {
     
     /**
      Returns a screenshot from the visible area
@@ -43,31 +33,14 @@ extension UIViewImager {
 }
 
 
-extension UIView : UIViewImager {
-}
-
-
-protocol ScrollViewImager {
-    
-    var frame: CGRect { get set }
-    var bounds: CGRect { get }
-    var contentSize: CGSize { get }
-    var contentOffset: CGPoint { get }
-    
-    func setContentOffset(contentOffset: CGPoint, animated: Bool)
-    func drawViewHierarchyInRect(rect: CGRect, afterScreenUpdates: Bool) -> Bool
-    
-}
-
-
-extension ScrollViewImager {
+extension UIScrollView {
     
     
     /**
      Generate a screenshot by resizing the scrollview
      - unsafe with memory intensive cells
      */
-    mutating func screenshot(scale: CGFloat) -> UIImage {
+    func screenshot(scale: CGFloat) -> UIImage {
         let currentSize = frame.size
         let currentOffset = contentOffset // temp store current offset
         
@@ -351,7 +324,4 @@ extension ScrollViewImager {
         
         return stitchedImages
     }
-}
-
-extension UIScrollView : ScrollViewImager {
 }
